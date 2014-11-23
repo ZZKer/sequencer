@@ -28,14 +28,14 @@ examp.add(emptyfunk, 2);
 examp.setintro(intro, 1);
 
 var exemp = new Sequencer();
-exemp.setintro(emptyfunk, 1);
-exemp.add(first, 1);
+exemp.add(function(t){return first(t)*0.1;}, 15);
+exemp.add(intro, 1);
 
 //volume
 var v = 0.1;
 
 export function dsp(t) {
-  return v * (examp.play(t) + exemp.play(t)*0.1);
+  return v * (examp.play(t) + exemp.play(t));
 }
 
 function intro(t) {

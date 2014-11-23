@@ -43,7 +43,7 @@ Sequencer.prototype.play = function(t){
   if(t === 0){
     this.addcur = 0;
     this.curt = 0;
-    this.endt = 1;
+    this.endt = this.lentab[0];
   }
   if(t-this.curt > this.endt){//if sequence reaches length time
     this.addcur++;//Increase to the next sequence
@@ -73,5 +73,7 @@ Sequencer.prototype.play = function(t){
  *  - Removed all code relating to broken pointer table
  *  - Added check for intro-only Sequencer in .play
  *  - Added .setintro to change sequence 0
- *  - Added example of anon func use in test
+ * b:
+ *  - Changed endt= from 1 to lentab[0] in .play
+ *  - Added actual anon function in test
  */

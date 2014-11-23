@@ -4,7 +4,7 @@
  * @module Sequencer
  * @author ZZKer
  * @desc Ordered Auto-Sequencer
- * @version 1.01
+ * @version 1.01b
  * 
  * TODO
  *  - Make multiple sequence paths

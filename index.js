@@ -6,17 +6,18 @@
  * @desc Ordered Auto-Sequencer
  */
 
-export var defal = function(t){return 0;};
+var defal = function(t){return 0;};
 
 export default Sequencer;
 
 export function Sequencer() {
-  Sequencer.prototype.curt   = 0;//current sequence start: t=0
-  Sequencer.prototype.endt   = 1;//end of current sequence
-  Sequencer.prototype.addcur = 0;//address of current sequence
-  Sequencer.prototype.addtab = [defal];//address table for all sequences
-  Sequencer.prototype.lentab = [1];//length table for all sequences
-  Sequencer.prototype.pnttab = [[0]];//pointer table for next sequences
+  if (!(this instanceof Sequencer)) return new Sequencer();
+  this.curt   = 0;//current sequence start: t=0
+  this.endt   = 1;//end of current sequence
+  this.addcur = 0;//address of current sequence
+  this.addtab = [defal];//address table for all sequences
+  this.lentab = [1];//length table for all sequences
+  this.pnttab = [[0]];//pointer table for next sequences
 }
 
 Sequencer.prototype.add = function(nextseq, nextlen, nextpnt){

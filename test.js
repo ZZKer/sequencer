@@ -1,7 +1,9 @@
 
 /**
  * test
- * currently not working
+ * stuff is messed up
+ * not sure why nothing is working right
+ * If you know how to fix, please submit a bug report on github
  */
 
 import { sin, saw, ramp, tri, sqr, pulse, noise } from 'opendsp/osc';
@@ -14,11 +16,7 @@ examp.add(third, 1, [4]);
 examp.add(forth, 1, [0,1,2,3,4]);
 
 export function dsp(t) {
-  if(t>1){
-    return examp.play(t);
-  }else{
-    return 0;
-  }
+  return examp.play(t);
 }
 
 function first(t) {

@@ -4,9 +4,11 @@
  * @module Sequencer
  * @author ZZKer
  * @desc Ordered Auto-Sequencer
- * @version 1.01b
+ * @version 1.02
+ *    Last updated Nov. 29, 2014
  * 
  * TODO
+ *  - Utilize a Sample "bank"
  *  - Make multiple sequence paths
  *  - Add seeded random module for paths
  *  - Make paths user friendly
@@ -25,18 +27,22 @@ export function Sequencer() {
   this.addcur = 0;//address of current sequence
   this.addtab = [emptyfunk];//address table for all sequences
   this.lentab = [1];//length table for all sequences
+  this.biglen = 1;//All lengths added together
 }
 
 //For replacing the intro
 Sequencer.prototype.setintro = function(seq, len){
+  this.biglen = this.biglen - this.lentab[0];
   this.addtab[0] = seq;
   this.lentab[0] = len;
+  this.biglen += len;
 };
 
 //For adding sequences to the end of the Sequencer
 Sequencer.prototype.add = function(nextseq, nextlen){
   this.addtab[this.addtab.length] = nextseq;//add sequence
   this.lentab[this.lentab.length] = nextlen;//add length
+  this.biglen += nextlen;
 };
 
 Sequencer.prototype.play = function(t){
@@ -62,8 +68,28 @@ Sequencer.prototype.play = function(t){
   return this.addtab[this.addcur](t-this.curt);
 };
 
+Sequencer.prototype.simpleplay = function(t){
+  if(t < lentab[0]){
+    return addtab[0](t);
+  }else{
+    var len = (t-lentab[0]%biglen);
+    var complen = 0;
+    for(var i = 1; i < lentab.length(); i++){
+      complen += lentab[i];
+      if(len < complen){
+        return addtab[i](len+lentab[i]-complen);
+      }
+    }
+  }
+  //if all else fails
+  return 0;
+};
+
 /**
  * Version Change Log
+ * V1.02
+ *  - Added .simpleplay for less resource intensive playing
+ * 
  * V1.01
  *  - Changed .prototypes. vars to this. vars in constructor
  *    This fixes no multiple Sequencers issue

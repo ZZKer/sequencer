@@ -7,10 +7,10 @@
  * a pull request.
  * 
  * Also fair to note:
- * -  The Sequencer is not good for fly-by edits.
+ * -  The Sequencer is not good for fly-by edits when using .play.
  * It is best to test a single sequence in another tab
- * then copy it over when it sounds right.
- * Changing any code will restart the Sequencer.
+ * then copy it over when it sounds right or to use .simpleplay.
+ * Changing any code will restart the Sequencer when using .play.
  * -  The Sequencer has caused wavepot client crashes while testing.
  * If the sounds skips indefinitely, reload the page.
  */
@@ -35,7 +35,7 @@ exemp.add(intro, 1);
 var v = 0.1;
 
 export function dsp(t) {
-  return v * (examp.play(t) + exemp.play(t));
+  return v * (examp.simpleplay(t) + exemp.simpleplay(t));
 }
 
 function intro(t) {

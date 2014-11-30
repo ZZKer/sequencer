@@ -69,15 +69,15 @@ Sequencer.prototype.play = function(t){
 };
 
 Sequencer.prototype.simpleplay = function(t){
-  if(t < lentab[0]){
-    return addtab[0](t);
+  if(t < this.lentab[0]){
+    return this.addtab[0](t);
   }else{
-    var len = (t-lentab[0]%biglen);
+    var len = (t-this.lentab[0]%this.biglen);
     var complen = 0;
-    for(var i = 1; i < lentab.length(); i++){
-      complen += lentab[i];
+    for(var i = 1; i < this.lentab.length(); i++){
+      complen += this.lentab[i];
       if(len < complen){
-        return addtab[i](len+lentab[i]-complen);
+        return this.addtab[i](len+this.lentab[i]-complen);
       }
     }
   }

@@ -4,14 +4,15 @@
  * @module Sequencer
  * @author ZZKer
  * @desc Ordered Auto-Sequencer
- * @version 1.02
- *    Last updated Nov. 29, 2014
+ * @version 1.02b
+ *    Last updated Dec. 6, 2014
  * 
  * TODO
  *  - Utilize a Sample "bank"
  *  - Make multiple sequence paths
  *  - Add seeded random module for paths
  *  - Make paths user friendly
+ *  - Change .play to .simpleplay code after coding pathing
  */
 
 //default sequence. Set to noise for debugging purposes
@@ -27,15 +28,13 @@ export function Sequencer() {
   this.addcur = 0;//address of current sequence
   this.addtab = [emptyfunk];//address table for all sequences
   this.lentab = [1];//length table for all sequences
-  this.biglen = 1;//All lengths added together
+  this.biglen = 0;//All lengths added together
 }
 
 //For replacing the intro
 Sequencer.prototype.setintro = function(seq, len){
-  this.biglen = this.biglen - this.lentab[0];
   this.addtab[0] = seq;
   this.lentab[0] = len;
-  this.biglen += len;
 };
 
 //For adding sequences to the end of the Sequencer
@@ -45,6 +44,10 @@ Sequencer.prototype.add = function(nextseq, nextlen){
   this.biglen += nextlen;
 };
 
+/**
+ * The .play function is the old way of playing sequences.
+ * Currently only here for compatibility
+ */
 Sequencer.prototype.play = function(t){
   if(t === 0){
     this.addcur = 0;
@@ -68,27 +71,38 @@ Sequencer.prototype.play = function(t){
   return this.addtab[this.addcur](t-this.curt);
 };
 
+/**
+ *  The .simpleplay function should be used over the .play
+ * function when using single-path sequences.
+ */
 Sequencer.prototype.simpleplay = function(t){
+  //for playing intro
   if(t < this.lentab[0]){
     return this.addtab[0](t);
-  }else{
-    var len = (t-this.lentab[0]%this.biglen);
+  }else{ //for playing rest of song
+    var len = ((t-this.lentab[0])%this.biglen);
     var complen = 0;
-    for(var i = 1; i < this.lentab.length(); i++){
+    for(var i = 1; i < this.lentab.length; i++){
       complen += this.lentab[i];
       if(len < complen){
         return this.addtab[i](len+this.lentab[i]-complen);
       }
     }
   }
-  //if all else fails
-  return 0;
+  //if all else fails, repeat intro
+  return this.addtab[0](t%this.lentab[0]);
 };
 
 /**
  * Version Change Log
  * V1.02
  *  - Added .simpleplay for less resource intensive playing
+ * b:
+ *  - Fixed: biglen doesn't use intro length
+ *  - Fixed .length() to .length in .simpleplay
+ *  - Changed fail return in .simpleplay to play intro
+ *    This is useful for sequences with only an intro.
+ *  - Added comments to .play and .simpleplay
  * 
  * V1.01
  *  - Changed .prototypes. vars to this. vars in constructor

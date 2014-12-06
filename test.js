@@ -13,9 +13,6 @@
  * Changing any code will restart the Sequencer when using .play.
  * -  The Sequencer has caused wavepot client crashes while testing.
  * If the sounds skips indefinitely, reload the page.
- * 
- * CRAP I BROKE IT AND DONT HAVE TIME TO FIX IT.
- * Currently, .simpleplay DOES NOT WORK.
  */
 
 import { sin, saw, ramp, tri, sqr, pulse, noise } from 'opendsp/osc';
@@ -38,7 +35,7 @@ exemp.add(intro, 1);
 var v = 0.1;
 
 export function dsp(t) {
-  return v * (examp.play(t) + exemp.play(t));
+  return v * (examp.simpleplay(t) + exemp.simpleplay(t));
 }
 
 function intro(t) {
